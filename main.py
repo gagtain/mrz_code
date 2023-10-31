@@ -1,47 +1,55 @@
-from mrz.checker.td3 import TD3CodeChecker
-from mrz.checker.td1 import TD1CodeChecker
-from mrz.checker.td2 import TD2CodeChecker
+from webclient import *
 import json
+from dotenv import load_dotenv
+import os
+
+class MrzReader:
+    """ is a high-level class for obtaining and saving data with api """
 
 
+    def __init__(self) -> None:
+
+        load_dotenv()
+
+        self.response: RecognitionResponse = None
+        self.data = {}
+        self.input_image = None
 
 
-def load_data(filename):
-    with open(filename) as f:
-        data = f.read()
-    return json.loads(data)
+    def send(self):
+        self.get_image()
+        with DocumentReaderApi(host='https://api.regulaforensics.com/') as api:
+            params = ProcessParams(
+                scenario=Scenario.FULL_PROCESS,
+                result_type_output=[Result.DOCUMENT_IMAGE, Result.STATUS, Result.TEXT, Result.IMAGES]
+            )
+            request = RecognitionRequest(process_params=params, images=[self.input_image])
+            self.response = api.process(request)
 
 
-def get_mrz_in_json(json: dict):
-    return json['result'][0].get('value').replace('^', '\n')
+    def get_image(self):
+        with open(os.getenv("FILE"), "rb") as f:
+            self.input_image = f.read()
 
 
+    def init_data(self):
 
-def mrz_checker_from_mrz(mrz: str):
-    list_mrz = [TD1CodeChecker, TD3CodeChecker, TD2CodeChecker]
-    for mrz_checker in list_mrz:
-        try:
-            print(mrz_checker)
-            return mrz_checker(mrz)
-        except:
-            ...
-    raise ValueError
-
-def main(mrz_coder):
-    checker_passport = mrz_checker_from_mrz(mrz_coder)
-    print(checker_passport.document_type)
-    fields_passport = checker_passport.fields()
-    print(checker_passport)
-    print("fields")
-    for key, value in fields_passport._asdict().items():
-        print(f"{key} : {value}")
-    print(len(fields_passport._asdict()))
+        for i in TextFieldType.allowable_values:
+            field = self.response.text.get_field(i)
+            if field is not None:
+                self.data[field.field_name] = {
+                    "value": field.get_value(),
+                    "valid_mrz": field.source_validity(Source.MRZ),
+                    "valid_vis": field.source_validity(Source.VISUAL)
+                }
 
 
-
-if __name__ == '__main__':
-
-    json_mrz_data = load_data('MRZ/3x30/2_2.json')
-    mrz = get_mrz_in_json(json=json_mrz_data)
-    print(mrz)
-    main(mrz)
+    def write_data(self):
+        with open(os.getenv("input_file"), "w") as f:
+            f.write(json.dumps(self.data))
+    
+if __name__ == "__main__":
+    mrz_reader = MrzReader()
+    mrz_reader.send()
+    mrz_reader.init_data()
+    mrz_reader.write_data()
