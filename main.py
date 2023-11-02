@@ -3,7 +3,7 @@ from mrz.checker.td1 import TD1CodeChecker
 from mrz.checker.td2 import TD2CodeChecker
 import json
 
-
+from MrzClass import MrzClass
 
 
 def load_data(filename):
@@ -43,5 +43,5 @@ if __name__ == '__main__':
 
     json_mrz_data = load_data('MRZ/3x30/2_2.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
-    print(mrz)
-    main(mrz)
+    mrz_class = MrzClass(mrz)
+    print(mrz_class)
