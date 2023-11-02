@@ -45,14 +45,9 @@ class TD2CodeCheckerID_2(TD2CodeChecker):
                                 check_expiry,
                                 compute_warnings,
                                 mrz_code)
-        print(self._all_fields(), self._all_hashes(), 123)
         self.result = self._all_hashes() & self._all_fields()
-        print(self.result)
 
     def _all_hashes(self) -> bool:
-        print(self.final_hash,
-                self.document_number_hash,
-                self.birth_date_hash)
         return (self.final_hash &
                 self.document_number_hash &
                 self.birth_date_hash)
@@ -68,18 +63,22 @@ class TD2CodeCheckerID_2(TD2CodeChecker):
         return self.report.add("final hash", ok)
 
     def _all_fields(self) -> bool:
-        print((self.document_type,
-                self.country,
-                self.birth_date,
-                self.sex,
-                self.identifier,
-                self.document_number))
         return (self.document_type &
                 self.country &
                 self.birth_date &
                 self.sex &
                 self.identifier &
                 self.document_number)
+    
+
+    def get_dict_all_fields(self):
+
+        return {"document_type":self.document_type,
+                "country":self.country,
+                "birth_date":self.birth_date,
+                "sex":self.sex,
+                "identifier":self.identifier,
+                "document_number":self.document_number}
 
 
 class MrzClass:
@@ -122,3 +121,15 @@ class MrzClass:
 
     def __str__(self) -> str:
         return f"fields: {self.fields}, validate: {self.valid}"
+    
+
+    def print_table(self):
+        for key, val in self.fields.items():
+            print(f"{key} | {val}")
+        try:
+            data = self.select_code_checker.get_dict_all_fields()
+            for key, val in data.items():
+                print(f"{key} | {val}")
+        except Exception as e:
+            print(e)
+        print(f"total_validate: {self.valid}")

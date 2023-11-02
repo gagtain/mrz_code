@@ -41,7 +41,7 @@ def main(mrz_coder):
 
 if __name__ == '__main__':
 
-    json_mrz_data = load_data('MRZ/3x30/2_2.json')
+    json_mrz_data = load_data('MRZ/2x36/1.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
     mrz_class = MrzClass(mrz)
-    print(mrz_class)
+    mrz_class.print_table()
