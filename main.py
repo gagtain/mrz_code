@@ -43,5 +43,7 @@ if __name__ == '__main__':
 
     json_mrz_data = load_data('MRZ/2x36/1.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
-    mrz_class = MrzClass(mrz)
+    mrz_class = MrzClass(mrz, document_type="PN", document_number="751510430", country_code="RUS", birth_date="790922",
+                         sex="F", expiry_date="<<<<<<", nationality="RUS", surname="7SOVA", given_names="DIANA NIKOLAEVNA",
+                         optional_data1="4150126740026<")
     mrz_class.print_table()

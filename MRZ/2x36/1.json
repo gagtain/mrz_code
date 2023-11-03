@@ -2,7 +2,7 @@
   "result": [
     {
       "type": "MRZStrings",
-      "value": "IDFRABERTHIER<<<<<<<<<<<<<<<<<<<<<<<^8806923102858CORINNE<<<<<<<6512068F6",
+      "value": "PNRUS7SOVA<<DIANA<NIKOLAEVNA<<<<<<<<<<<<<<<<^7515104300RUS7909227F<<<<<<<4150126740026<28",
       "confidence": 94
     },
     { "type": "DocumentClassCode", "value": "ID", "confidence": 96 },
