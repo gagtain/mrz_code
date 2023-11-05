@@ -4,7 +4,7 @@ from mrz.checker.td2 import TD2CodeChecker, _TD2HashChecker
 from mrz.checker._fields import _FieldsChecker
 import mrz.base.string_checkers as check
 from mrz.base.countries_ops import *
-from mrz.base.functions import hash_is_ok, namedtuple_maker
+from mrz.base.functions import hash_is_ok, namedtuple_maker, hash_string
 from mrz.base.functions import anset
 from mrz.base.string_checkers import is_empty
 from mrz.checker._hash_fields import _HashChecker
@@ -156,3 +156,57 @@ class TD2CodeGenerator_ID2(TD2CodeGenerator):
 
         """
         self._document_number = field(value, 12, "document number")
+
+
+    @property
+    def final_hash(self) -> str:
+        """Return final hash digit for TD2
+
+        """
+        final_string = (self.document_number +
+                        self.document_number_hash +
+                        self.birth_date +
+                        self.birth_date_hash)
+        return hash_string(final_string)
+
+
+    def _line1(self):
+        len_not_fill_line = 36 - len(self.document_type) - len(self.country_code) - len(self.surname) - len(self.optional_data)
+
+        optional = self._optional_data if not self.optional_data[0:-1].isnumeric() else f"<{self.optional_data[0:-1]}"
+        print(optional)
+        return (self.document_type +
+                self.country_code +
+                self.surname + "<" * len_not_fill_line +
+                optional)
+
+
+    def _line2(self):
+        len_not_fill_line = (36 - len(self.document_number) - len(self.document_number_hash) -
+                             len(self.given_names) - len(self.birth_date) -
+                             len(self.birth_date_hash) - len(self.sex) - len(self.final_hash)
+                             )
+        return (self.document_number +
+                self.document_number_hash +
+                self.given_names +
+                "<" * len_not_fill_line +
+                self.birth_date +
+                self.birth_date_hash +
+                self.sex +
+                self.final_hash)
+
+    
+
+    @property
+    def expiry_date(self) -> str:
+        """Return date of expiry of the document
+
+        """
+        return self._expiry_date
+
+    @expiry_date.setter
+    def expiry_date(self, value: str):
+        """Set date of expiry of the MRTD with 'YYMMDD' format
+
+        """
+        self._expiry_date = value

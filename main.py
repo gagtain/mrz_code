@@ -41,9 +41,10 @@ def main(mrz_coder):
 
 if __name__ == '__main__':
 
-    json_mrz_data = load_data('MRZ/2x36/1.json')
+    json_mrz_data = load_data('MRZ/3x30/1_2.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
-    mrz_class = MrzClass(mrz, document_type="ID", country_code="FRA", document_number="880692310285",
-                                  birth_date="651206", sex="F", expiry_date="<<<<<<", nationality="FRA",
-                                  surname="BERTHIER", given_names="CORINNE", optional_data1="<<<<<<")
+    mrz_class = MrzClass(mrz, document_type="ID", country_code="ARE", document_number="080813400",
+                                  birth_date="650701", sex="F", expiry_date="261110", nationality="ARE",
+                                  surname="ALJABERI", given_names="AYSHA MOHAMMED ABDUL",
+                         optional_data1="784196525160808")
     mrz_class.print_table()

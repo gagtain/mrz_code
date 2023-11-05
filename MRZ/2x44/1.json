@@ -1,1 +1,31 @@
-{"result": [{"type": "MRZStrings", "value": "PAMDATURCAN<<IRINA<<<<<<<<<<<<<<<<<<<<<<<<<<^AB03280905MDA9909302F25082452004007050279<22", "confidence": 97}, {"type": "DocumentClassCode", "value": "PA", "confidence": 100}, {"type": "IssuingStateCode", "value": "MDA", "confidence": 100}, {"type": "Surname&GivenNames", "value": "TURCAN  IRINA", "confidence": 97}, {"type": "DocumentNumber", "value": "AB0328090", "confidence": 100}, {"type": "DocumentNumberCheckdigit", "value": "5", "confidence": 100}, {"type": "NationalityCode", "value": "MDA", "confidence": 100}, {"type": "DateOfBirth", "value": "990930", "confidence": 100}, {"type": "DateOfBirthCheckdigit", "value": "2", "confidence": 100}, {"type": "Sex", "value": "F", "confidence": 100}, {"type": "DateOfExpiry", "value": "250824", "confidence": 100}, {"type": "DateOfExpiryCheckdigit", "value": "5", "confidence": 100}, {"type": "OptionalData", "value": "2004007050279", "confidence": 100}, {"type": "PersonalNumber", "value": "2004007050279", "confidence": 100}, {"type": "OptionalDataCheckdigit", "value": "2", "confidence": 100}, {"type": "FinalCheckdigit", "value": "2", "confidence": 100}, {"type": "MRZType", "value": "ID-3", "confidence": 100}, {"type": "Surname", "value": "TURCAN", "confidence": 97}, {"type": "GivenNames", "value": "IRINA", "confidence": 100}]}
+{
+  "result": [
+    {
+      "type": "MRZStrings",
+      "value": "PAMDATURCAN<<IRINA<<<<<<<<<<<<<<<<<<<<<<<<<<^AB03280905MDA9909302F25082452004007050279<22",
+      "confidence": 97
+    },
+    { "type": "DocumentClassCode", "value": "PA", "confidence": 100 },
+    { "type": "IssuingStateCode", "value": "MDA", "confidence": 100 },
+    {
+      "type": "Surname&GivenNames",
+      "value": "TURCAN  IRINA",
+      "confidence": 97
+    },
+    { "type": "DocumentNumber", "value": "AB0328090", "confidence": 100 },
+    { "type": "DocumentNumberCheckdigit", "value": "5", "confidence": 100 },
+    { "type": "NationalityCode", "value": "MDA", "confidence": 100 },
+    { "type": "DateOfBirth", "value": "990930", "confidence": 100 },
+    { "type": "DateOfBirthCheckdigit", "value": "2", "confidence": 100 },
+    { "type": "Sex", "value": "F", "confidence": 100 },
+    { "type": "DateOfExpiry", "value": "250824", "confidence": 100 },
+    { "type": "DateOfExpiryCheckdigit", "value": "5", "confidence": 100 },
+    { "type": "OptionalData", "value": "2004007050279", "confidence": 100 },
+    { "type": "PersonalNumber", "value": "2004007050279", "confidence": 100 },
+    { "type": "OptionalDataCheckdigit", "value": "2", "confidence": 100 },
+    { "type": "FinalCheckdigit", "value": "2", "confidence": 100 },
+    { "type": "MRZType", "value": "ID-3", "confidence": 100 },
+    { "type": "Surname", "value": "TURCAN", "confidence": 97 },
+    { "type": "GivenNames", "value": "IRINA", "confidence": 100 }
+  ]
+}

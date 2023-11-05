@@ -207,8 +207,9 @@ class T3CodeGeneratorUpdate(TD3CodeGenerator):
             self._document_type = check.document_type(value, self) if not self.force \
                 else check.field(value, 2, "document type")
         except Exception as e:
-            if value.upper() == 'PN':
-                self._document_type = value
+            "<<<<<<<<<<<<<<<<"
+            if value.upper() == 'PN' or value.upper() == 'PA' or value.upper() == 'P':
+                self._document_type = value if len(value) == 2 else f"{value}<"
             else:
                 raise e
         

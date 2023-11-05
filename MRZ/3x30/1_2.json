@@ -1,1 +1,35 @@
-{"result": [{"type": "MRZStrings", "value": "IDARE0808134004784196525160808^6507017F2611103ARE<<<<<<<<<<<4^ALJABERI<<AYSHA<MOHAMMED<ABDUL", "confidence": 74}, {"type": "DocumentClassCode", "value": "ID", "confidence": 100}, {"type": "IssuingStateCode", "value": "ARE", "confidence": 97}, {"type": "DocumentNumber", "value": "080813400", "confidence": 97}, {"type": "DocumentNumberCheckdigit", "value": "4", "confidence": 94}, {"type": "OptionalData", "value": "78419652516080", "confidence": 74}, {"type": "IdentityCardNumber", "value": "784196525160808", "confidence": 74}, {"type": "OptionalDataCheckdigit", "value": "8", "confidence": 100}, {"type": "DateOfBirth", "value": "650701", "confidence": 94}, {"type": "DateOfBirthCheckdigit", "value": "7", "confidence": 90}, {"type": "Sex", "value": "F", "confidence": 78}, {"type": "DateOfExpiry", "value": "261110", "confidence": 91}, {"type": "DateOfExpiryCheckdigit", "value": "3", "confidence": 100}, {"type": "NationalityCode", "value": "ARE", "confidence": 97}, {"type": "FinalCheckdigit", "value": "4", "confidence": 100}, {"type": "Surname&GivenNames", "value": "ALJABERI  AYSHA MOHAMMED ABDUL", "confidence": 52}, {"type": "MRZType", "value": "ID-1", "confidence": 100}, {"type": "Surname", "value": "ALJABERI", "confidence": 52}, {"type": "GivenNames", "value": "AYSHA MOHAMMED ABDUL", "confidence": 72}]}
+{
+  "result": [
+    {
+      "type": "MRZStrings",
+      "value": "IDARE0808134004784196525160808^6507017F2611103ARE<<<<<<<<<<<4^ALJABERI<<AYSHA<MOHAMMED<ABDUL",
+      "confidence": 74
+    },
+    { "type": "DocumentClassCode", "value": "ID", "confidence": 100 },
+    { "type": "IssuingStateCode", "value": "ARE", "confidence": 97 },
+    { "type": "DocumentNumber", "value": "080813400", "confidence": 97 },
+    { "type": "DocumentNumberCheckdigit", "value": "4", "confidence": 94 },
+    { "type": "OptionalData", "value": "78419652516080", "confidence": 74 },
+    {
+      "type": "IdentityCardNumber",
+      "value": "784196525160808",
+      "confidence": 74
+    },
+    { "type": "OptionalDataCheckdigit", "value": "8", "confidence": 100 },
+    { "type": "DateOfBirth", "value": "650701", "confidence": 94 },
+    { "type": "DateOfBirthCheckdigit", "value": "7", "confidence": 90 },
+    { "type": "Sex", "value": "F", "confidence": 78 },
+    { "type": "DateOfExpiry", "value": "261110", "confidence": 91 },
+    { "type": "DateOfExpiryCheckdigit", "value": "3", "confidence": 100 },
+    { "type": "NationalityCode", "value": "ARE", "confidence": 97 },
+    { "type": "FinalCheckdigit", "value": "4", "confidence": 100 },
+    {
+      "type": "Surname&GivenNames",
+      "value": "ALJABERI  AYSHA MOHAMMED ABDUL",
+      "confidence": 52
+    },
+    { "type": "MRZType", "value": "ID-1", "confidence": 100 },
+    { "type": "Surname", "value": "ALJABERI", "confidence": 52 },
+    { "type": "GivenNames", "value": "AYSHA MOHAMMED ABDUL", "confidence": 72 }
+  ]
+}
