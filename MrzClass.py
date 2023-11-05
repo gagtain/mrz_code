@@ -1,3 +1,5 @@
+import copy
+
 from custom_mrz.t3 import TD3CodeCheckerIdictAll, T3CodeGeneratorUpdate
 from custom_mrz.t2 import TD2CodeCheckerID_2, TD2CodeGenerator_ID2
 from mrz.checker.td1 import TD1CodeChecker
@@ -161,12 +163,13 @@ class MrzClass(MrzCodeChecker):
 
         mrz_code = kwargs.pop('mrz_code')
         for key, value in kwargs.items():
-
+            raw_value = copy.copy(value)
             if key in self.null_to_O:
                 kwargs[key] = value.replace('0', 'O')
-                mrz_code.replace(value, kwargs[key])
+                print(raw_value)
+                mrz_code = mrz_code.replace(raw_value, kwargs[key])
             else:
                 kwargs[key] = value.replace('O', '0')
-                mrz_code.replace(value, kwargs[key])
+                mrz_code = mrz_code.replace(raw_value, kwargs[key])
         kwargs['mrz_code'] = mrz_code
         return kwargs

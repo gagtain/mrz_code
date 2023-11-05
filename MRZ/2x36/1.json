@@ -2,7 +2,7 @@
   "result": [
     {
       "type": "MRZStrings",
-      "value": "IDFRABERTHIER<<<<<<<<<<<<<<<<<<<<<<<^8806923102858CORINNE<<<<<<<6512068F6",
+      "value": "IDFRABERTHIER<<<<<<<<<<<<<<<<<<<<<<<^8806923102858C0RINNE<<<<<<<6512068F6",
       "confidence": 94
     },
     { "type": "DocumentClassCode", "value": "ID", "confidence": 96 },
