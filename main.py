@@ -3,7 +3,7 @@ from mrz.checker.td1 import TD1CodeChecker
 from mrz.checker.td2 import TD2CodeChecker
 import json
 
-from MrzClass import MrzClass
+from MrzClass import MrzClass, MrzClassGenerator, MrzCodeChecker
 
 
 def load_data(filename):
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     json_mrz_data = load_data('MRZ/2x36/1.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
-    mrz_class = MrzClass(mrz, document_type="PN", document_number="751510430", country_code="RUS", birth_date="790922",
-                         sex="F", expiry_date="<<<<<<", nationality="RUS", surname="7SOVA", given_names="DIANA NIKOLAEVNA",
-                         optional_data1="4150126740026<")
+    mrz_class = MrzClass(mrz, document_type="ID", country_code="FRA", document_number="880692310285",
+                                  birth_date="651206", sex="F", expiry_date="<<<<<<", nationality="FRA",
+                                  surname="BERTHIER", given_names="CORINNE", optional_data1="<<<<<<")
     mrz_class.print_table()
