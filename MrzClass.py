@@ -2,14 +2,20 @@ from custom_mrz.t3 import TD3CodeCheckerIdictAll, T3CodeGeneratorUpdate
 from custom_mrz.t2 import TD2CodeCheckerID_2, TD2CodeGenerator_ID2
 from mrz.checker.td1 import TD1CodeChecker
 from mrz.checker.td2 import TD2CodeChecker
-from mrz.checker.td1 import TD1CodeChecker
 from mrz.generator.td1 import TD1CodeGenerator
-from mrz.generator.td3 import TD3CodeGenerator
 from mrz.generator.td2 import TD2CodeGenerator
 
 
 class MrzClassGenerator:
     select_code_checker = None
+
+    checker_to_generator = {
+        TD1CodeChecker: TD1CodeGenerator,
+        TD3CodeCheckerIdictAll: T3CodeGeneratorUpdate,
+        TD2CodeCheckerID_2: TD2CodeGenerator_ID2,
+        TD2CodeChecker: TD2CodeGenerator
+
+    }
 
     def __init__(self, mrz_code: str,
                  document_type: str,
@@ -25,82 +31,50 @@ class MrzClassGenerator:
                  optional_data2=""):
         self.mrz_generate_and_validate = []
         self.mrz_code = mrz_code
-        self.set_code_checker()
-        if self.select_code_checker == TD1CodeChecker:
-            generator = TD1CodeGenerator(document_type,
-                                         country_code,
-                                         document_number,
-                                         birth_date,
-                                         sex,
-                                         expiry_date,
-                                         nationality,
-                                         surname,
-                                         given_names,
-                                         optional_data1,
-                                         optional_data2)
-        elif self.select_code_checker.__class__ == TD3CodeCheckerIdictAll:
+        self.document_type = document_type,
+        self.country_code = country_code,
+        self.document_number = document_number,
+        self.birth_date = birth_date,
+        self.sex = sex,
+        self.expiry_date = expiry_date,
+        self.nationality = nationality,
+        self.surname = surname,
+        self.given_names = given_names,
+        self.optional_data1 = optional_data1
+        self.optional_data2 = optional_data2
 
-            generator = T3CodeGeneratorUpdate(document_type=document_type,
-                                              country_code=country_code,
-                                              document_number=document_number,
-                                              birth_date=birth_date,
-                                              sex=sex,
-                                              expiry_date=expiry_date,
-                                              nationality=nationality,
-                                              surname=surname,
-                                              given_names=given_names,
-                                              optional_data=optional_data1)
-        elif self.select_code_checker.__class__ == TD2CodeCheckerID_2:
+    def get_data(self):
+        data = dict(document_type=self.document_type[0],
+                    country_code=self.country_code[0],
+                    document_number=self.document_number[0],
+                    birth_date=self.birth_date[0],
+                    sex=self.sex[0],
+                    expiry_date=self.expiry_date[0],
+                    nationality=self.nationality[0],
+                    surname=self.surname[0],
+                    given_names=self.given_names[0],
+                    optional_data=self.optional_data1)
 
-            generator = TD2CodeGenerator_ID2(document_type=document_type,
-                                             country_code=country_code,
-                                             document_number=document_number,
-                                             birth_date=birth_date,
-                                             sex=sex,
-                                             expiry_date=expiry_date,
-                                             nationality=nationality,
-                                             surname=surname,
-                                             given_names=given_names,
-                                             optional_data=optional_data1)
-        elif self.select_code_checker.__class__ == TD2CodeChecker:
+        if self.select_code_checker.__class__ == TD1CodeChecker:
+            data['optional_data1'] = data.pop('optional_data')
+            data['optional_data2'] = self.optional_data2
 
-            generator = TD2CodeGenerator(document_type=document_type,
-                                         country_code=country_code,
-                                         document_number=document_number,
-                                         birth_date=birth_date,
-                                         sex=sex,
-                                         expiry_date=expiry_date,
-                                         nationality=nationality,
-                                         surname=surname,
-                                         given_names=given_names,
-                                         optional_data=optional_data1)
-        else:
+        return data
 
-            generator = TD1CodeGenerator(document_type=document_type,
-                                         country_code=country_code,
-                                         document_number=document_number,
-                                         birth_date=birth_date,
-                                         sex=sex,
-                                         expiry_date=expiry_date,
-                                         nationality=nationality,
-                                         surname=surname,
-                                         given_names=given_names,
-                                         optional_data1=optional_data1
-                                         )
+    def set_generator(self):
+        data = self.get_data()
+        generator = self.checker_to_generator[self.select_code_checker.__class__](**data)
+
         self.mrz_generate_and_validate.append({
-            'mrz_code': mrz_code,
+            'mrz_code': self.mrz_code,
             'generated_mrz_code': str(generator),
-            'status': str(generator) == mrz_code
+            'status': str(generator) == self.mrz_code
         }
         )
-        print(len(str(generator)), len(mrz_code))
-
-    def set_code_checker(self):
-        pass
 
 
 class MrzCodeChecker(MrzClassGenerator):
-    mrz_class_list = (TD1CodeChecker, TD3CodeCheckerIdictAll, TD2CodeCheckerID_2)
+    mrz_class_list = (TD1CodeChecker, TD3CodeCheckerIdictAll, TD2CodeCheckerID_2, TD2CodeChecker)
     select_code_checker = None
     mrz_code = None
 
@@ -111,20 +85,24 @@ class MrzCodeChecker(MrzClassGenerator):
     def __init__(self, mrz_code: str, *args, **kwargs):
         self.mrz_generate_and_validate = []
         self.mrz_code = mrz_code
-        self.set_code_checker()
-        print(self.select_code_checker, 324)
         super().__init__(mrz_code, *args, **kwargs)
 
     def set_code_checker(self):
+        raw_select = None
+
         for mrz_checker in self.mrz_class_list:
             try:
                 self.select_code_checker = mrz_checker
+
                 self.validate_mrz_code()
-                return
+                if self.valid:
+                    return
+                else:
+                    raw_select = self.select_code_checker
             except Exception as e:
-                print(e, 123)
-        print(str(self))
-        raise ValueError
+                ...
+        if raw_select is not None:
+            raise ValueError
 
     def validate_mrz_code(self):
         self.select_code_checker = self.select_code_checker(self.mrz_code)
@@ -151,14 +129,29 @@ class MrzCodeChecker(MrzClassGenerator):
         print(f"total_validate: {self.valid}")
         print(f"mrz {self.mrz_generate_and_validate}")
 
+    def total_data(self):
+        if self.select_code_checker is not None:
+            return (self.fields.items() | self.select_code_checker.get_dict_all_fields() |
+                    self.select_code_checker.get_dict_all_fields_validate() | {'valid':self.valid} |
+                    {'mrz': self.mrz_generate_and_validate})
+
 
 class MrzClass(MrzCodeChecker):
     """ 
     Класс необходимый для генерации/проверки/получения результатов по данным mrz
     """
 
+    null_to_O = ["document_type", "country_code", "sex", "nationality", "surname", "given_names"]
+
     def __init__(self, mrz_code: str, document_type: str, country_code: str, document_number: str, birth_date: str,
                  sex: str, expiry_date: str, nationality: str, surname: str, given_names: str, optional_data1="",
                  optional_data2=""):
         super().__init__(mrz_code, document_type, country_code, document_number, birth_date, sex, expiry_date,
                          nationality, surname, given_names, optional_data1, optional_data2)
+
+    def base_replacement(self, mrz_code, **kwargs):
+        """ Метод заменяет 0 на O и наоборот в зависимости от контекста """
+
+        for key, value in kwargs.items():
+            if key in self.null_to_O:
+                value.replaice('0', 'O')
