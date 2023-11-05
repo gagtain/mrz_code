@@ -1,18 +1,10 @@
-from mrz.checker.td3 import TD3CodeChecker
-from mrz.checker.td1 import TD1CodeChecker
 from mrz.checker.td2 import TD2CodeChecker, _TD2HashChecker
 from mrz.checker._fields import _FieldsChecker
 import mrz.base.string_checkers as check
-from mrz.base.countries_ops import *
-from mrz.base.functions import hash_is_ok, namedtuple_maker, hash_string
+from mrz.base.functions import hash_string
 from mrz.base.functions import anset
-from mrz.base.string_checkers import is_empty
-from mrz.checker._hash_fields import _HashChecker
-from mrz.checker._fields import _FieldsChecker
-from mrz.checker._report import _Report, Kind
-from mrz.checker._honorifics import titles
 from mrz.generator.td2 import TD2CodeGenerator
-from mrz.base.string_checkers import field, date
+from mrz.base.string_checkers import field
 
 
 class TD2CodeCheckerID_2(TD2CodeChecker):
@@ -29,11 +21,9 @@ class TD2CodeCheckerID_2(TD2CodeChecker):
         self._birth_date_hash = lines[1][-3]
         self._date_of_issue = lines[1][0:4]
         self._sex = lines[1][-2]
-        print(lines[1][5: 30])
         self._expiry_date = lines[1][21: 27]
         self._expiry_date_hash = lines[1][27]
         self._optional_data = lines[0][20: 44]
-        print('optional', self._optional_data)
         self._final_hash = lines[1][35]
         _TD2HashChecker.__init__(self,
                                  self._document_number,

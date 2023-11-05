@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     json_mrz_data = load_data('MRZ/2x36/1.json')
     mrz = get_mrz_in_json(json=json_mrz_data)
-    mrz_class = MrzClass(mrz, document_type="ID", country_code="FRA", document_number="880692310285",
+    mrz_class = MrzClass(mrz, document_type="ID", country_code="FRA", document_number="88O692310285",
                                   birth_date="651206", sex="F", expiry_date="8806", nationality="FRA",
                                   surname="BERTHIER", given_names="CORINNE",
                          optional_data1="<<<<<<")

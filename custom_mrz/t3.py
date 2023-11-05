@@ -1,4 +1,4 @@
-from mrz.checker.td3 import TD3CodeChecker
+from mrz.checker.td3 import TD3CodeChecker, _TD3HashChecker
 from mrz.checker.td1 import TD1CodeChecker
 from mrz.checker.td2 import TD2CodeChecker, _TD2HashChecker
 from mrz.checker._fields import _FieldsChecker
@@ -17,7 +17,48 @@ from mrz.generator.td3 import TD3CodeGenerator, _TD3HolderName
 from mrz.base.errors import DateError
 
 class TD3CodeCheckerIdictAll(TD3CodeChecker):
-
+    def __init__(self, mrz_code: str, check_expiry=False, compute_warnings=False):
+        check.precheck("TD3", mrz_code, 89)
+        lines = mrz_code.splitlines()
+        self._document_type = lines[0][0: 2].replace('0', 'O')
+        self._country = lines[0][2: 5].replace('0', 'O')
+        self._identifier = lines[0][5: 44].replace('0', 'O')
+        self._document_number = lines[1][0: 9].replace('O', '0')
+        self._document_number_hash = lines[1][9].replace('O', '0')
+        self._nationality = lines[1][10: 13].replace('0', 'O')
+        self._birth_date = lines[1][13: 19].replace('O', '0')
+        self._birth_date_hash = lines[1][19].replace('O', '0')
+        self._sex = lines[1][20].replace('0', 'O')
+        self._expiry_date = lines[1][21: 27].replace('O', '0')
+        self._expiry_date_hash = lines[1][27].replace('O', '0')
+        self._optional_data = lines[1][28: 42].replace('O', '0')
+        self._optional_data_hash = lines[1][42].replace('O', '0')
+        self._final_hash = lines[1][43].replace('O', '0')
+        _TD3HashChecker.__init__(self,
+                                 self._document_number,
+                                 self._document_number_hash,
+                                 self._birth_date,
+                                 self._birth_date_hash,
+                                 self._expiry_date,
+                                 self._expiry_date_hash,
+                                 self._optional_data,
+                                 self._optional_data_hash,
+                                 self._final_hash)
+        _FieldsChecker.__init__(self,
+                                self._document_type,
+                                self._country,
+                                self._identifier,
+                                self._document_number,
+                                self._nationality,
+                                self._birth_date,
+                                self._sex,
+                                self._expiry_date,
+                                self._optional_data,
+                                "",
+                                check_expiry,
+                                compute_warnings,
+                                mrz_code)
+        self.result = self._all_hashes() & self._all_fields()
     def get_dict_all_fields(self):
         return {"document_type":self._document_type,
                 "nationality": self._nationality,

@@ -29,6 +29,7 @@ class MrzClassGenerator:
                  given_names: str,
                  optional_data1="",
                  optional_data2=""):
+
         self.mrz_generate_and_validate = []
         self.mrz_code = mrz_code
         self.document_type = document_type,
@@ -74,7 +75,8 @@ class MrzClassGenerator:
 
 
 class MrzCodeChecker(MrzClassGenerator):
-    mrz_class_list = (TD1CodeChecker, TD3CodeCheckerIdictAll, TD2CodeCheckerID_2, TD2CodeChecker)
+    mrz_class_list = (TD1CodeChecker, TD3CodeCheckerIdictAll,
+                      TD2CodeCheckerID_2, TD2CodeChecker)
     select_code_checker = None
     mrz_code = None
 
@@ -132,7 +134,7 @@ class MrzCodeChecker(MrzClassGenerator):
     def total_data(self):
         if self.select_code_checker is not None:
             return (self.fields.items() | self.select_code_checker.get_dict_all_fields() |
-                    self.select_code_checker.get_dict_all_fields_validate() | {'valid':self.valid} |
+                    self.select_code_checker.get_dict_all_fields_validate() | {'valid': self.valid} |
                     {'mrz': self.mrz_generate_and_validate})
 
 
@@ -146,12 +148,25 @@ class MrzClass(MrzCodeChecker):
     def __init__(self, mrz_code: str, document_type: str, country_code: str, document_number: str, birth_date: str,
                  sex: str, expiry_date: str, nationality: str, surname: str, given_names: str, optional_data1="",
                  optional_data2=""):
-        super().__init__(mrz_code, document_type, country_code, document_number, birth_date, sex, expiry_date,
-                         nationality, surname, given_names, optional_data1, optional_data2)
+        data = self.base_replacement(mrz_code=mrz_code, document_type=document_type, country_code=country_code,
+                                     document_number=document_number, birth_date=birth_date, sex=sex,
+                                     expiry_date=expiry_date,
+                                     nationality=nationality, surname=surname, given_names=given_names,
+                                     optional_data1=optional_data1, optional_data2=optional_data2)
 
-    def base_replacement(self, mrz_code, **kwargs):
+        super().__init__(**data)
+
+    def base_replacement(self, **kwargs):
         """ Метод заменяет 0 на O и наоборот в зависимости от контекста """
 
+        mrz_code = kwargs.pop('mrz_code')
         for key, value in kwargs.items():
+
             if key in self.null_to_O:
-                value.replaice('0', 'O')
+                kwargs[key] = value.replace('0', 'O')
+                mrz_code.replace(value, kwargs[key])
+            else:
+                kwargs[key] = value.replace('O', '0')
+                mrz_code.replace(value, kwargs[key])
+        kwargs['mrz_code'] = mrz_code
+        return kwargs
